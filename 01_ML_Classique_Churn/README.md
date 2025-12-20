@@ -1,54 +1,69 @@
-# Churn Prediction - Machine Learning
+# Prédiction du Churn — Machine Learning
 
-## Goal
+## Objectif
 
-Predict customer churn and compare Random Forest vs XGBoost.
+Prédire le churn client et comparer Random Forest à XGBoost.
 
-## Results (current run)
+## Points clés
 
-### RandomForest
+- Comparer deux solides modèles de référence pour données tabulaires : **RandomForest (bagging)** vs **XGBoost (boosting)**.  
+- Évaluer avec plusieurs métriques (pas seulement l’accuracy).  
+- Montrer que **le seuil de classification est une décision métier**.
 
-- Accuracy: 0.7991
-- Precision: 0.6553
-- Recall: 0.5134
-- F1: 0.5757
-- ROC-AUC: 0.8414
+## Résultats (exécution actuelle)
 
-### XGBoost
+Les métriques sont calculées sur le jeu de test mis de côté.
 
-- Accuracy: 0.7977
-- Precision: 0.6478
-- Recall: 0.5214
-- F1: 0.5778
-- ROC-AUC: 0.8422
+| Modèle | Accuracy | Précision | Rappel | F1 | ROC-AUC |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| RandomForest | 0.7991 | 0.6553 | 0.5134 | 0.5757 | 0.8414 |
+| XGBoost | 0.7977 | 0.6478 | 0.5214 | 0.5778 | 0.8422 |
 
-## Artifacts
+## Seuil de décision (perspective métier)
 
-- `results/model_metrics.json`
-- `results/confusion_matrix.png`
+Le seuil par défaut est **0.5**.
+
+D’après l’analyse des seuils (0.3 / 0.5 / 0.7), **0.3** offre un meilleur compromis global (F1 plus élevé) si l’on accepte de cibler un groupe de clients plus large.
+
+## Figures
+
+### Matrices de confusion
+
+![confusion_matrix.png](results/confusion_matrix.png)
+
+### Importance des variables (Top 15)
+
+![feature_importance.png](results/feature_importance.png)
+
+## Artéfacts
+
+- `results/model_metrics.json`  
+- `results/confusion_matrix.png`  
 - `results/feature_importance.png`
 
 ## Structure
 
-- `data/raw/`: dataset
-- `notebooks/`: analysis notebook
-- `src/`: reusable code
-- `results/`: metrics and figures
+- `data/raw/` : dataset  
+- `notebooks/` : notebook d’analyse  
+- `src/` : code réutilisable  
+- `results/` : métriques et figures
 
-## Setup
+## Installation
 
 ```bash
 pip install -r ../requirements.txt
 ```
 
-## Run (VS Code)
+## Exécution (VS Code)
 
-- Open `notebooks/01_churn_prediction.ipynb`
-- Select the `.venv` interpreter/kernel
-- Run all cells
+- Ouvrir `notebooks/01_churn_prediction.ipynb`  
+- Sélectionner l’interpréteur/kernel `.venv`  
+- Exécuter toutes les cellules
 
 ## Dataset
 
-Place the Telco Customer Churn CSV file at:
+Placer le fichier CSV Telco Customer Churn ici :
 
 `01_ML_Classique_Churn/data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv`
+
+---

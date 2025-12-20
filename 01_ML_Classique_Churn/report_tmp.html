@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>report.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="pr%C3%A9diction-du-churn-client-telco--rapport">Prédiction du Churn Client (Telco) — Rapport</h1>
+<h2 id="1-r%C3%A9sum%C3%A9-ex%C3%A9cutif">1. Résumé exécutif</h2>
+<p>Objectif : prédire le churn client et comparer <strong>RandomForest</strong> et <strong>XGBoost</strong> sur le dataset Telco Customer Churn.</p>
+<p>Principaux résultats (jeu de test) :</p>
+<ul>
+<li>Les deux modèles obtiennent des performances proches.</li>
+<li><strong>XGBoost</strong> est légèrement meilleur sur le ROC-AUC et le F1-score dans cette exécution.</li>
+<li>Le <strong>seuil de décision est un choix métier</strong>. Dans notre analyse, un seuil de <strong>0,3</strong> améliore le rappel et le F1 au prix d’un plus grand nombre de clients signalés pour rétention.</li>
+</ul>
+<h2 id="2-contexte--probl%C3%A9matique-m%C3%A9tier">2. Contexte &amp; problématique métier</h2>
+<p>La prédiction du churn aide une entreprise à prioriser les actions de rétention (réductions, appels, actions Customer Success) vers les clients susceptibles de partir.</p>
+<p>Deux contraintes typiques :</p>
+<ul>
+<li>Les actions de rétention ont un coût (budget, temps humain, coût des remises).</li>
+<li>Rater des churners peut être très coûteux (perte de revenus récurrents).</li>
+</ul>
+<p>Ainsi, l’évaluation du modèle doit aller au-delà de la simple accuracy.</p>
+<h2 id="3-jeu-de-donn%C3%A9es">3. Jeu de données</h2>
+<ul>
+<li>Source : Telco Customer Churn dataset (<code>WA_Fn-UseC_-Telco-Customer-Churn.csv</code>).</li>
+<li>Variable cible : <code>Churn</code> (Yes/No).</li>
+</ul>
+<h2 id="4-m%C3%A9thodologie">4. Méthodologie</h2>
+<h3 id="41-strat%C3%A9gie-de-d%C3%A9coupage">4.1 Stratégie de découpage</h3>
+<ul>
+<li>Séparation train/test.</li>
+<li>Utilisation d’un <strong>stratified split</strong> pour préserver le taux de churn entre train et test.</li>
+</ul>
+<h3 id="42-pr%C3%A9traitement">4.2 Prétraitement</h3>
+<p>Un prétraitement simple a été appliqué :</p>
+<ul>
+<li>Nettoyage de <code>TotalCharges</code> (conversion en numérique, gestion des valeurs manquantes / vides).</li>
+<li>Encodage des variables catégorielles (label encoding).</li>
+<li>Standardisation des variables numériques (StandardScaler).</li>
+</ul>
+<p>Note : en production, privilégier <code>Pipeline</code> / <code>ColumnTransformer</code> pour éviter les fuites de données et améliorer la reproductibilité.</p>
+<h3 id="43-mod%C3%A8les">4.3 Modèles</h3>
+<ul>
+<li><strong>RandomForest</strong> : ensemble d’arbres de décision (bagging), un excellent baseline pour les données tabulaires.</li>
+<li><strong>XGBoost</strong> : gradient boosting, souvent très performant sur les problèmes tabulaires.</li>
+</ul>
+<h2 id="5-%C3%A9valuation">5. Évaluation</h2>
+<h3 id="51-m%C3%A9triques-jeu-de-test">5.1 Métriques (jeu de test)</h3>
+<table>
+<thead>
+<tr>
+<th>Modèle</th>
+<th style="text-align:right">Accuracy</th>
+<th style="text-align:right">Précision</th>
+<th style="text-align:right">Rappel</th>
+<th style="text-align:right">F1</th>
+<th style="text-align:right">ROC-AUC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RandomForest</td>
+<td style="text-align:right">0.7991</td>
+<td style="text-align:right">0.6553</td>
+<td style="text-align:right">0.5134</td>
+<td style="text-align:right">0.5757</td>
+<td style="text-align:right">0.8414</td>
+</tr>
+<tr>
+<td>XGBoost</td>
+<td style="text-align:right">0.7977</td>
+<td style="text-align:right">0.6478</td>
+<td style="text-align:right">0.5214</td>
+<td style="text-align:right">0.5778</td>
+<td style="text-align:right">0.8422</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52-matrices-de-confusion">5.2 Matrices de confusion</h3>
+<p><img src="file:///c:/Users/bello/Documents/data-science-portfolio/01_ML_Classique_Churn/results/confusion_matrix.png" alt="confusion_matrix.png"></p>
+<p>Interprétation :</p>
+<ul>
+<li>La précision et le rappel illustrent le compromis entre faux positifs (clients non churners signalés) et faux négatifs (churners manqués).</li>
+</ul>
+<h2 id="6-analyse-des-seuils-d%C3%A9cision-m%C3%A9tier">6. Analyse des seuils (décision métier)</h2>
+<p>Le seuil par défaut est 0,5, mais nous avons évalué 0,3 / 0,5 / 0,7.</p>
+<p>Résumé des comportements observés :</p>
+<ul>
+<li>
+<p><strong>Seuil bas (0,3)</strong> :</p>
+<ul>
+<li>Rappel plus élevé (on détecte plus de churners)</li>
+<li>Précision plus faible (plus de faux positifs)</li>
+<li>Plus grande proportion de clients ciblés</li>
+</ul>
+</li>
+<li>
+<p><strong>Seuil élevé (0,7)</strong> :</p>
+<ul>
+<li>Précision plus élevée (moins de faux positifs)</li>
+<li>Rappel beaucoup plus faible (beaucoup de churners manqués)</li>
+<li>Taille de campagne plus réduite</li>
+</ul>
+</li>
+</ul>
+<p>Recommandation pour cette exécution :</p>
+<ul>
+<li>Si l’action de rétention est peu coûteuse et que rater un churner est très pénalisant, <strong>un seuil de 0,3</strong> est pertinent.</li>
+<li>Si l’action de rétention est coûteuse et que l’on souhaite limiter les faux positifs, utiliser un seuil plus élevé.</li>
+</ul>
+<h2 id="7-importance-des-variables">7. Importance des variables</h2>
+<p><img src="file:///c:/Users/bello/Documents/data-science-portfolio/01_ML_Classique_Churn/results/feature_importance.png" alt="feature_importance.png"></p>
+<p>Notes :</p>
+<ul>
+<li>Les importances indiquent ce que le modèle utilise, mais ne sont pas causales.</li>
+<li>Pour une interprétation plus fiable, envisager la permutation importance ou SHAP (hors périmètre de cette analyse).</li>
+</ul>
+<h2 id="8-limites--pistes-dam%C3%A9lioration">8. Limites &amp; pistes d’amélioration</h2>
+<p>Limites :</p>
+<ul>
+<li>Les encodages simples (label encoding) peuvent introduire un ordre artificiel entre catégories.</li>
+<li>Un seul split train/test peut être sensible à l’aléa.</li>
+</ul>
+<p>Pistes d’amélioration (optionnel) :</p>
+<ul>
+<li>Utiliser une validation croisée Stratified K-Fold pour le tuning.</li>
+<li>Ajouter une courbe PR et/ou une évaluation basée sur les coûts.</li>
+<li>Améliorer le prétraitement via <code>Pipeline</code> et un encodage catégoriel adapté (one-hot).</li>
+</ul>
+<h2 id="9-reproductibilit%C3%A9">9. Reproductibilité</h2>
+<ul>
+<li>Notebook : <code>notebooks/01_churn_prediction.ipynb</code></li>
+<li>Métriques : <code>results/model_metrics.json</code></li>
+<li>Figures : <code>results/confusion_matrix.png</code>, <code>results/feature_importance.png</code></li>
+</ul>
+<hr>
+
+</body>
+</html>
