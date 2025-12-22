@@ -46,9 +46,10 @@ def ensure_artifact(path: Path, url: str | None) -> None:
 
 @st.cache_resource
 def load_artifacts(model_path: str, vectorizer_path: str):
-    model = tf.keras.models.load_model(model_path)
+    model = tf.keras.models.load_model(model_path, compile=False)
     vectorizer = tf.keras.models.load_model(
         vectorizer_path,
+        compile=False,
         custom_objects={"_custom_standardize": TextPreprocessor._custom_standardize},
     )
     return model, vectorizer
