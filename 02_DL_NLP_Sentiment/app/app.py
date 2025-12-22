@@ -64,8 +64,6 @@ st.write("Predict if a movie review is positive or negative.")
 
 threshold = st.sidebar.slider("Decision threshold (positive)", 0.05, 0.95, 0.50, 0.05)
 
-mode = st.sidebar.selectbox("Artifacts mode", ["Local", "GitHub Release"], index=0)
-
 DEFAULT_MODEL_URL = (
     "https://github.com/soboure69/data-science-portfolio/releases/download/v1.0/"
     "sentiment_model.keras"
@@ -75,8 +73,30 @@ DEFAULT_VECTORIZER_URL = (
     "text_vectorizer.keras"
 )
 
-default_model_url = os.environ.get("MODEL_URL", "") or DEFAULT_MODEL_URL
-default_vectorizer_url = os.environ.get("VECTORIZER_URL", "") or DEFAULT_VECTORIZER_URL
+secrets_model_url = None
+secrets_vectorizer_url = None
+try:
+    secrets_model_url = st.secrets.get("MODEL_URL")
+    secrets_vectorizer_url = st.secrets.get("VECTORIZER_URL")
+except Exception:
+    secrets_model_url = None
+    secrets_vectorizer_url = None
+
+env_model_url = os.environ.get("MODEL_URL", "")
+env_vectorizer_url = os.environ.get("VECTORIZER_URL", "")
+
+default_model_url = secrets_model_url or env_model_url or DEFAULT_MODEL_URL
+default_vectorizer_url = secrets_vectorizer_url or env_vectorizer_url or DEFAULT_VECTORIZER_URL
+
+local_artifacts_present = MODEL_PATH.exists() and VECTORIZER_PATH.exists()
+urls_present = bool(secrets_model_url or secrets_vectorizer_url or env_model_url or env_vectorizer_url)
+
+default_mode = "Local" if local_artifacts_present and not urls_present else "GitHub Release"
+mode = st.sidebar.selectbox(
+    "Artifacts mode",
+    ["Local", "GitHub Release"],
+    index=0 if default_mode == "Local" else 1,
+)
 
 model_url = None
 vectorizer_url = None
