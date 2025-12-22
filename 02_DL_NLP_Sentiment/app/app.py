@@ -5,6 +5,7 @@ from pathlib import Path
 import os
 import sys
 import urllib.request
+import zipfile
 
 import numpy as np
 import streamlit as st
@@ -36,12 +37,31 @@ def download_file(url: str, dest_path: Path) -> None:
     progress_bar.empty()
 
 
+def is_valid_keras_artifact(path: Path) -> bool:
+    if not path.exists():
+        return False
+    if path.suffix != ".keras":
+        return True
+    return zipfile.is_zipfile(path)
+
+
 def ensure_artifact(path: Path, url: str | None) -> None:
-    if path.exists():
+    if is_valid_keras_artifact(path):
         return
+    if path.exists():
+        try:
+            path.unlink()
+        except OSError:
+            pass
     if not url:
         raise FileNotFoundError(f"Missing artifact: {path}")
     download_file(url, path)
+
+    if not is_valid_keras_artifact(path):
+        raise ValueError(
+            "Downloaded artifact is not a valid .keras file (expected a Keras zip archive). "
+            "Double-check that your URL is a direct GitHub Release asset URL."
+        )
 
 
 @st.cache_resource
