@@ -31,6 +31,21 @@ services:
       retries: 5
     restart: unless-stopped
 
+  warehouse:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: warehouse
+      POSTGRES_PASSWORD: warehouse
+      POSTGRES_DB: warehouse
+    volumes:
+      - warehouse-db-volume:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "warehouse"]
+      interval: 5s
+      retries: 5
+    restart: unless-stopped
+
   airflow-init:
     <<: *airflow-common
     entrypoint: /bin/bash
@@ -44,7 +59,15 @@ services:
           --firstname Admin \
           --lastname User \
           --role Admin \
-          --email admin@example.com
+          --email admin@example.com && \
+        airflow connections delete 'warehouse_postgres' || true && \
+        airflow connections add 'warehouse_postgres' \
+          --conn-type postgres \
+          --conn-host warehouse \
+          --conn-schema warehouse \
+          --conn-login warehouse \
+          --conn-password warehouse \
+          --conn-port 5432
     restart: "no"
 
   airflow-webserver:
@@ -61,3 +84,4 @@ services:
 
 volumes:
   postgres-db-volume:
+  warehouse-db-volume:
