@@ -45,7 +45,12 @@ def is_valid_keras_artifact(path: Path) -> bool:
     return zipfile.is_zipfile(path)
 
 
-def ensure_artifact(path: Path, url: str | None) -> None:
+def ensure_artifact(path: Path, url: str | None, *, force_download: bool = False) -> None:
+    if force_download and path.exists():
+        try:
+            path.unlink()
+        except OSError:
+            pass
     if is_valid_keras_artifact(path):
         return
     if path.exists():
@@ -121,15 +126,17 @@ mode = st.sidebar.selectbox(
 
 model_url = None
 vectorizer_url = None
+force_download = False
 
 if mode == "GitHub Release":
     st.sidebar.write("Provide direct download URLs (e.g. GitHub Release asset URLs).")
     model_url = st.sidebar.text_input("MODEL_URL", value=default_model_url)
     vectorizer_url = st.sidebar.text_input("VECTORIZER_URL", value=default_vectorizer_url)
+    force_download = st.sidebar.checkbox("Force re-download artifacts", value=False)
 
 try:
-    ensure_artifact(MODEL_PATH, model_url)
-    ensure_artifact(VECTORIZER_PATH, vectorizer_url)
+    ensure_artifact(MODEL_PATH, model_url, force_download=force_download)
+    ensure_artifact(VECTORIZER_PATH, vectorizer_url, force_download=force_download)
 except FileNotFoundError as e:
     st.error(
         "Model artifacts not found.\n\n"
