@@ -1,0 +1,14 @@
+{
+  "model": "BiLSTM",
+  "test_metrics": {
+    "loss": 0.38541507720947266,
+    "accuracy": 0.8351600170135498,
+    "roc_auc": 0.9228788614273071
+  },
+  "test_roc_auc_sklearn": 0.9229191360000001,
+  "artifacts": {
+    "model": "C:\\Users\\bello\\Documents\\data-science-portfolio\\02_DL_NLP_Sentiment\\models\\sentiment_model.keras",
+    "vectorizer": "C:\\Users\\bello\\Documents\\data-science-portfolio\\02_DL_NLP_Sentiment\\models\\text_vectorizer.keras",
+    "roc_curve": "C:\\Users\\bello\\Documents\\data-science-portfolio\\02_DL_NLP_Sentiment\\results\\roc_curve.png"
+  }
+}

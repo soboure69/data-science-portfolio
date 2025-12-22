@@ -28,6 +28,7 @@ class TextPreprocessor:
         self.max_len = max_len
 
     @staticmethod
+    @tf.keras.utils.register_keras_serializable(package="text_preprocessing")
     def _custom_standardize(text: tf.Tensor) -> tf.Tensor:
         text = tf.strings.lower(text)
         text = tf.strings.regex_replace(text, r"<br\s*/?>", " ")
