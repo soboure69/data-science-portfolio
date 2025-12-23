@@ -64,3 +64,22 @@ Dans l’UI Airflow : Admin → Variables
 - DAG : `extract_openweathermap_weather`
 - Lance-le manuellement
 - Vérifie ensuite que des lignes sont insérées dans `warehouse.public.weather_raw`
+
+## J4 — Transform + checks qualité + load
+
+### Objectif
+
+- Transformer les JSON bruts (`weather_raw`) en colonnes analytiques (`weather_daily`)
+- Appliquer des checks qualité (nulls / ranges / duplicates)
+- Charger de façon idempotente (pas de duplicats sur `(city, country, obs_date)`)
+
+### Lancer le DAG
+
+- DAG : `transform_load_weather_daily`
+- Lance-le manuellement après avoir exécuté l’extractor
+
+### Validation attendue
+
+- Task `create_weather_daily_table` : Success
+- Task `transform_and_load_weather_daily` : Success
+- Table `warehouse.public.weather_daily` contient des lignes
