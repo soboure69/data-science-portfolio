@@ -109,28 +109,46 @@ def _transform_and_load() -> None:
     if not batch:
         raise ValueError("No valid rows to load after transformation.")
 
-    # Idempotent load: upsert by (city, country, obs_date)
-    hook.insert_rows(
-        table="public.weather_daily",
-        rows=batch,
-        target_fields=[
-            "source",
-            "city",
-            "country",
-            "obs_date",
-            "obs_ts",
-            "temp_c",
-            "humidity",
-            "pressure",
-            "wind_speed",
-            "weather_main",
-            "weather_description",
-            "payload",
-        ],
-        commit_every=100,
-        replace=False,
-        replace_index=["city", "country", "obs_date"],
+    # Idempotent load: UPSERT by (city, country, obs_date)
+    upsert_sql = """
+    INSERT INTO public.weather_daily (
+      source,
+      city,
+      country,
+      obs_date,
+      obs_ts,
+      temp_c,
+      humidity,
+      pressure,
+      wind_speed,
+      weather_main,
+      weather_description,
+      payload
     )
+    VALUES (%s, %s, %s, %s, %s::timestamptz, %s, %s, %s, %s, %s, %s, %s::jsonb)
+    ON CONFLICT (city, country, obs_date)
+    DO UPDATE SET
+      obs_ts = EXCLUDED.obs_ts,
+      temp_c = EXCLUDED.temp_c,
+      humidity = EXCLUDED.humidity,
+      pressure = EXCLUDED.pressure,
+      wind_speed = EXCLUDED.wind_speed,
+      weather_main = EXCLUDED.weather_main,
+      weather_description = EXCLUDED.weather_description,
+      payload = EXCLUDED.payload,
+      retrieved_at = now();
+    """
+
+    conn = hook.get_conn()
+    try:
+        with conn.cursor() as cur:
+            cur.executemany(upsert_sql, batch)
+        conn.commit()
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
 
     # Post-load checks
     dup_count = hook.get_first(
