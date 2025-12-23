@@ -41,3 +41,26 @@ Tu peux la voir dans l’UI : Admin → Connections.
 
 - DAG : `hello_world`
 - Lance-le manuellement (bouton Play) puis vérifie les logs de la task `hello`.
+
+## J3 — Extract Weather API (OpenWeatherMap)
+
+### 1) Créer une clé API OpenWeatherMap
+
+- Créer un compte : <https://home.openweathermap.org/users/sign_up>
+- Récupérer la clé : <https://home.openweathermap.org/api_keys>
+
+Note : la clé peut prendre quelques minutes à être activée.
+
+### 2) Configurer les Airflow Variables
+
+Dans l’UI Airflow : Admin → Variables
+
+- `OPENWEATHER_API_KEY` : ta clé
+- `OPENWEATHER_CITY` : `Lyon`
+- `OPENWEATHER_COUNTRY` : `FR`
+
+### 3) Lancer le DAG
+
+- DAG : `extract_openweathermap_weather`
+- Lance-le manuellement
+- Vérifie ensuite que des lignes sont insérées dans `warehouse.public.weather_raw`
