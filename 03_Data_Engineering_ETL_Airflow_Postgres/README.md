@@ -83,3 +83,29 @@ Dans l’UI Airflow : Admin → Variables
 - Task `create_weather_daily_table` : Success
 - Task `transform_and_load_weather_daily` : Success
 - Table `warehouse.public.weather_daily` contient des lignes
+
+## J5 — 2e source : Reddit (public JSON)
+
+### Notes
+
+On utilise les endpoints publics JSON de Reddit (sans OAuth).
+Reddit peut bloquer les requêtes si le `User-Agent` n’est pas explicite.
+
+### 1) Configurer les Airflow Variables
+
+Dans l’UI Airflow : Admin → Variables
+
+- `REDDIT_SUBREDDITS` : `datascience,machinelearning,france`
+- `REDDIT_LIMIT` : `25`
+- `REDDIT_USER_AGENT` : ex `data-science-portfolio-etl/0.1 (by u/your_username)`
+
+### 2) Lancer les DAGs
+
+- DAG : `extract_reddit_raw`
+- DAG : `transform_load_reddit_posts`
+
+### Validation attendue (Reddit)
+
+- Table `warehouse.public.reddit_raw` contient des payloads JSON
+- Table `warehouse.public.reddit_posts` contient des posts
+- Idempotence : relancer les DAGs ne crée pas de doublons sur `(subreddit, post_id)`
