@@ -31,6 +31,10 @@ Puis ouvrir : [http://127.0.0.1:8050](http://127.0.0.1:8050)
 - Fichier : `data/products.csv`
 - Colonnes : `product_id,name,category,price,rating,num_reviews,description,tags`
 
+## Demo (GIF)
+
+![Demo du dashboard](assets/demo.gif)
+
 ## Déploiement
 
 ### Option recommandée : Render (Web Service)
@@ -48,6 +52,20 @@ Paramètres Render typiques :
 Notes :
 
 - `dashboard/app.py` expose `server = app.server` pour Gunicorn.
+
+## Screenshots
+
+### Vue générale + recommandations
+
+![Recommandations (liste)](assets/screenshot-01-recommendations-liste.png)
+
+![Recommandations (analytics)](assets/screenshot-01-recommendations-analytique.png)
+
+### Impact du filtre catégorie
+
+![Filtre catégorie (liste)](assets/screenshot-02-category-filter-liste.png)
+
+![Filtre catégorie (analytics)](assets/screenshot-02-category-filter-analytique.png)
 
 ## Structure
 
