@@ -133,6 +133,7 @@ app.layout = html.Div(
                 ),
                 html.Div(
                     [
+                        html.Div(id="ux-insight", style={"marginBottom": "12px"}),
                         html.Div(id="recommendations-container", style={"marginBottom": "16px"}),
                         html.Div(
                             [
@@ -145,6 +146,7 @@ app.layout = html.Div(
                                     style={"display": "flex", "gap": "14px"},
                                 ),
                                 dcc.Graph(id="price-chart"),
+                                dcc.Graph(id="price-dist-chart"),
                             ],
                             style={
                                 "backgroundColor": "white",
@@ -281,6 +283,61 @@ def update_cards(data):
     return html.Div(cards)
 
 
+@app.callback(
+    Output("ux-insight", "children"),
+    Input("recommendations-store", "data"),
+)
+def update_ux_insight(data):
+    if not data:
+        return html.Div(
+            "Tip: use the category filter to trade off diversity vs relevance.",
+            style={
+                "backgroundColor": "white",
+                "border": "1px solid #e9ecef",
+                "borderRadius": "10px",
+                "padding": "12px",
+                "color": colors["text"],
+            },
+        )
+
+    selected = data.get("selected", {})
+    category = data.get("category")
+    rec_ids = [r["product_id"] for r in data.get("recommendations", [])]
+    rec_df = products_df[products_df["product_id"].isin(rec_ids)]
+
+    total_categories = int(products_df["category"].nunique())
+    rec_categories = int(rec_df["category"].nunique()) if not rec_df.empty else 0
+
+    explanation = (
+        "When you set a category filter, recommendations become more *focused* (higher relevance within the same category) "
+        "but usually less *diverse* (fewer different categories)."
+    )
+
+    return html.Div(
+        [
+            html.Div("UX mini-exercise: Category filter impact", style={"fontWeight": "600", "marginBottom": "6px"}),
+            html.Div(explanation, style={"fontSize": "13px", "marginBottom": "8px", "color": colors["text"]}),
+            html.Div(
+                [
+                    html.Div(f"Selected: {selected.get('name', '')}", style={"fontSize": "13px"}),
+                    html.Div(f"Filter: {category}", style={"fontSize": "13px"}),
+                    html.Div(
+                        f"Diversity: {rec_categories}/{total_categories} categories in current recommendations",
+                        style={"fontSize": "13px"},
+                    ),
+                ],
+                style={"color": colors["text"]},
+            ),
+        ],
+        style={
+            "backgroundColor": "white",
+            "border": "1px solid #e9ecef",
+            "borderRadius": "10px",
+            "padding": "12px",
+        },
+    )
+
+
 @app.callback(Output("similarity-chart", "figure"), Input("recommendations-store", "data"))
 def update_similarity_chart(data):
     if not data or not data.get("recommendations"):
@@ -332,6 +389,48 @@ def update_price_chart(data):
         color_discrete_map={"selected": colors["primary"], "recommended": colors["success"]},
     )
     fig.update_layout(height=380, margin=dict(l=20, r=20, t=40, b=20))
+    return fig
+
+
+@app.callback(Output("price-dist-chart", "figure"), Input("recommendations-store", "data"))
+def update_price_distribution(data):
+    fig = go.Figure()
+    if not data:
+        return fig
+
+    selected_price = float(data["selected"]["price"])
+    rec_ids = [r["product_id"] for r in data.get("recommendations", [])]
+    rec_prices = products_df[products_df["product_id"].isin(rec_ids)]["price"].astype(float).tolist()
+
+    fig.add_trace(
+        go.Histogram(
+            x=products_df["price"].astype(float),
+            name="All products",
+            opacity=0.45,
+            marker_color="#b0bec5",
+        )
+    )
+
+    if rec_prices:
+        fig.add_trace(
+            go.Histogram(
+                x=rec_prices,
+                name="Recommended",
+                opacity=0.65,
+                marker_color=colors["success"],
+            )
+        )
+
+    fig.add_vline(x=selected_price, line_width=3, line_dash="dash", line_color=colors["primary"])
+    fig.update_layout(
+        title="Price distribution (context)",
+        barmode="overlay",
+        height=360,
+        margin=dict(l=20, r=20, t=40, b=20),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+    )
+    fig.update_xaxes(title="Price")
+    fig.update_yaxes(title="Count")
     return fig
 
 
