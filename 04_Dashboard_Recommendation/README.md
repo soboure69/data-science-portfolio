@@ -4,6 +4,9 @@
 
 Dashboard **Dash** interactif montrant un système de recommandation **content-based** (cosine similarity).
 
+- Démo live (Render) : [dashboard-recommendation-a1ds.onrender.com](https://dashboard-recommendation-a1ds.onrender.com)
+- Notes / Learn : [`learn.md`](learn.md)
+
 - **Reco** : TF-IDF sur texte (name/category/description/tags) + features numériques (price/rating/num_reviews)
 - **UI** : sélection produit + recommandations + charts
 - **Mini-exercice UX** : filtre **catégorie** (impact sur les recommandations)
@@ -45,15 +48,6 @@ Paramètres Render typiques :
 Notes :
 
 - `dashboard/app.py` expose `server = app.server` pour Gunicorn.
-
-### Alternative : Heroku
-
-Le projet inclut aussi :
-
-- `Procfile`
-- `runtime.txt`
-
-Le start command est identique : `gunicorn dashboard.app:server`.
 
 ## Structure
 
