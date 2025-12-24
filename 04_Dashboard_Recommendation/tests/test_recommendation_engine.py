@@ -1,15 +1,19 @@
 import os
+import sys
 import unittest
 
 import pandas as pd
+
+PROJECT_DIR = os.path.dirname(os.path.dirname(__file__))
+if PROJECT_DIR not in sys.path:
+    sys.path.insert(0, PROJECT_DIR)
 
 from src.recommendation_engine import RecommendationEngine
 
 
 class TestRecommendationEngine(unittest.TestCase):
     def setUp(self):
-        project_dir = os.path.dirname(os.path.dirname(__file__))
-        data_path = os.path.join(project_dir, "data", "products.csv")
+        data_path = os.path.join(PROJECT_DIR, "data", "products.csv")
         self.engine = RecommendationEngine(data_path=data_path)
 
     def test_load_products_has_required_columns(self):
