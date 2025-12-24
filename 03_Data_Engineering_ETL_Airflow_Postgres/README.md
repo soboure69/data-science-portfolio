@@ -7,6 +7,8 @@ Pipeline orchestré (Airflow) avec 2 sources et un entrepôt Postgres :
 - Weather (OpenWeatherMap) : `weather_raw` → `weather_daily`
 - Reddit (public JSON) : `reddit_raw` → `reddit_posts`
 
+Notes / Learn : [`learn.md`](learn.md)
+
 ```mermaid
 flowchart LR
   subgraph Sources
