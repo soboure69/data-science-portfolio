@@ -5,14 +5,7 @@ import { notFound } from "next/navigation";
 
 import { Badge } from "@/components/badge";
 import { Container } from "@/components/container";
-import { getProjectBySlug, projects } from "@/data/projects";
-
-export const dynamic = "force-static";
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
-}
+import { getProjectBySlug } from "@/data/projects";
 
 export function generateMetadata({
   params,
