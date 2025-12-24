@@ -17,6 +17,8 @@ export type Project = {
   highlights: string[];
   metrics: ProjectMetric[];
   links: ProjectLink[];
+  demoUrl?: string;
+  demoEmbedUrl?: string;
   coverImage?: {
     src: string;
     alt: string;
@@ -71,6 +73,8 @@ export const projects: Project[] = [
         href: "https://github.com/soboure69/data-science-portfolio/tree/main/02_DL_NLP_Sentiment",
       },
     ],
+    demoUrl: "https://data-science-portfolio-9trrfmqurfwu3p3hl7ibwz.streamlit.app/",
+    demoEmbedUrl: "https://data-science-portfolio-9trrfmqurfwu3p3hl7ibwz.streamlit.app/",
     coverImage: {
       src: "/covers/dl-nlp-sentiment.svg",
       alt: "Aperçu du projet NLP sentiment (Deep Learning)",
@@ -124,6 +128,8 @@ export const projects: Project[] = [
         href: "https://github.com/soboure69/data-science-portfolio/tree/main/04_Dashboard_Recommendation",
       },
     ],
+    demoUrl: "https://dashboard-recommendation-a1ds.onrender.com",
+    demoEmbedUrl: "https://dashboard-recommendation-a1ds.onrender.com",
     coverImage: {
       src: "/covers/dashboard-recommendation.svg",
       alt: "Aperçu du dashboard de recommandation",

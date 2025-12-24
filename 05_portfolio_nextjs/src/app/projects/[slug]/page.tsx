@@ -85,13 +85,48 @@ export default function ProjectDetailPage({
 
             <div className="grid gap-6 lg:grid-cols-3">
               <div className="lg:col-span-2">
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-                  <h2 className="text-lg font-semibold text-white">Highlights</h2>
-                  <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-zinc-300">
-                    {project.highlights.map((h) => (
-                      <li key={h}>{h}</li>
-                    ))}
-                  </ul>
+                <div className="space-y-6">
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+                    <h2 className="text-lg font-semibold text-white">Highlights</h2>
+                    <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-zinc-300">
+                      {project.highlights.map((h) => (
+                        <li key={h}>{h}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {project.demoEmbedUrl ? (
+                    <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                          <h2 className="text-lg font-semibold text-white">Live demo</h2>
+                          <p className="mt-1 text-sm text-zinc-300">
+                            Application Python embarquée (Render).
+                          </p>
+                        </div>
+                        <a
+                          href={project.demoUrl ?? project.demoEmbedUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex h-10 items-center justify-center rounded-full border border-white/15 bg-white/5 px-4 text-sm font-semibold text-white hover:bg-white/10"
+                        >
+                          Open in new tab
+                        </a>
+                      </div>
+
+                      <div className="mt-5 overflow-hidden rounded-xl border border-white/10 bg-black/30">
+                        <div className="relative aspect-[16/10] w-full">
+                          <iframe
+                            src={project.demoEmbedUrl}
+                            title={`${project.title} — Live demo`}
+                            className="absolute inset-0 h-full w-full"
+                            allow="clipboard-read; clipboard-write"
+                            loading="lazy"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
               </div>
 
