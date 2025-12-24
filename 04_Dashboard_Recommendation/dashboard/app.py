@@ -213,9 +213,51 @@ def update_recommendations(n_clicks, selected_product, category, max_price):
 )
 def update_cards(data):
     if not data or not data.get("recommendations"):
-        return html.Div("Select a product and click 'Get Recommendations' to see results.")
+        if not data:
+            return html.Div("Select a product and click 'Get Recommendations' to see results.")
+
+        category = data.get("category")
+        max_price = data.get("max_price")
+        selected = data.get("selected", {})
+
+        return html.Div(
+            [
+                html.Div(
+                    "No recommendations match the current filters.",
+                    style={"fontWeight": "600", "marginBottom": "6px"},
+                ),
+                html.Div(
+                    [
+                        html.Div(f"Selected: {selected.get('name', '')}"),
+                        html.Div(f"Category filter: {category}"),
+                        html.Div(f"Max price: ${float(max_price):.2f}" if max_price is not None else "Max price: -"),
+                    ],
+                    style={"color": colors["text"], "fontSize": "13px"},
+                ),
+            ],
+            style={
+                "backgroundColor": "white",
+                "border": "1px solid #e9ecef",
+                "borderRadius": "10px",
+                "padding": "12px",
+            },
+        )
+
+    category = data.get("category")
+    max_price = data.get("max_price")
 
     cards = []
+    cards.append(
+        html.Div(
+            [
+                html.Div(
+                    f"Recommendations: {len(data['recommendations'])} | Category: {category} | Max price: ${float(max_price):.2f}",
+                    style={"fontSize": "13px", "color": colors["text"]},
+                )
+            ],
+            style={"marginBottom": "10px"},
+        )
+    )
     for rec in data["recommendations"]:
         row = products_df[products_df["product_id"] == rec["product_id"]].iloc[0]
         cards.append(
@@ -270,11 +312,11 @@ def update_category_chart(data):
 
 @app.callback(Output("price-chart", "figure"), Input("recommendations-store", "data"))
 def update_price_chart(data):
-    if not data or not data.get("recommendations"):
+    if not data:
         return go.Figure()
 
     selected_id = data["selected"]["product_id"]
-    rec_ids = [r["product_id"] for r in data["recommendations"]]
+    rec_ids = [r["product_id"] for r in data.get("recommendations", [])]
 
     subset = products_df[products_df["product_id"].isin([selected_id] + rec_ids)][
         ["product_id", "name", "price"]
