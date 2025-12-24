@@ -23,7 +23,7 @@ flowchart LR
     A4[transform_load_reddit_posts]
   end
 
-  subgraph Warehouse[(Postgres warehouse)]
+  subgraph Warehouse["Postgres warehouse"]
     WR[(weather_raw)]
     WD[(weather_daily)]
     RR[(reddit_raw)]
