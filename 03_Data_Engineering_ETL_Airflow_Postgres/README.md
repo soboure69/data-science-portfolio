@@ -66,6 +66,20 @@ flowchart TB
   - **Rôle** : base de données cible (tables raw + tables “curated”)
   - **Port** : non exposé (interne au réseau Docker)
 
+## Screenshots / Evidence
+
+### Airflow
+
+![Airflow DAGs](results/airflow_dags.png)
+
+![Airflow run - weather_daily](results/airflow_run_weather_daily.png)
+
+### Postgres (warehouse) — preuves
+
+![psql tables counts](results/psql_tables_counts.png)
+
+![psql idempotence proof](results/psql_idempotence.png)
+
 ## J1 — Démarrage (Airflow UI + DAG minimal)
 
 ### Prérequis
