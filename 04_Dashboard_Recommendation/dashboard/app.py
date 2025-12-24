@@ -1,4 +1,5 @@
 import os
+import sys
 
 import dash
 from dash import Input, Output, State, dcc, html
@@ -6,10 +7,12 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
+
 from src.recommendation_engine import RecommendationEngine
 
-
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 rec_engine = RecommendationEngine()
 products_df = rec_engine.load_products()

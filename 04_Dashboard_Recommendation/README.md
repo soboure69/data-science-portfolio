@@ -10,6 +10,8 @@ Dashboard **Dash** interactif montrant un système de recommandation **content-b
 
 ## Comment lancer
 
+Pré-requis : **Python 3.11 ou 3.12**. Python 3.14 peut casser l’exécution (ex : `pkgutil.find_loader` supprimé) et/ou l’installation de dépendances (wheels manquants).
+
 Depuis ce dossier :
 
 ```bash
@@ -37,4 +39,3 @@ Puis ouvrir : [http://127.0.0.1:8050](http://127.0.0.1:8050)
 - Feature scaling (pour mixer texte + numériques)
 - Cold start (produit inconnu / pas d’historique)
 - Dash callbacks (Input/State/Output)
-
