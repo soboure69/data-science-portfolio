@@ -20,6 +20,7 @@ rec_engine.build_features()
 
 app = dash.Dash(__name__)
 app.title = "Smart Product Recommender"
+server = app.server
 
 colors = {
     "primary": "#1f77b4",
