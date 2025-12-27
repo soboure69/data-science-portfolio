@@ -15,10 +15,13 @@ export type Project = {
   year: string;
   stack: string[];
   highlights: string[];
+  results?: string[];
   metrics: ProjectMetric[];
   links: ProjectLink[];
   demoUrl?: string;
   demoEmbedUrl?: string;
+  readmePath?: string;
+  readmeUrl?: string;
   coverImage?: {
     src: string;
     alt: string;
@@ -41,12 +44,19 @@ export const projects: Project[] = [
       { label: "Objectif", value: "Réduire le churn" },
       { label: "Type", value: "Classification binaire" },
     ],
+    results: [
+      "Pipeline complet (prétraitement + modèle) prêt pour production",
+      "Validation robuste (Stratified K-Fold) et métriques orientées business",
+    ],
     links: [
       {
         label: "Code (GitHub)",
         href: "https://github.com/soboure69/data-science-portfolio/tree/main/01_ML_Classique_Churn",
       },
     ],
+    readmePath: "../01_ML_Classique_Churn/README.md",
+    readmeUrl:
+      "https://raw.githubusercontent.com/soboure69/data-science-portfolio/master/01_ML_Classique_Churn/README.md",
     coverImage: {
       src: "/covers/ml-churn.svg",
       alt: "Aperçu du projet churn (ML classique)",
@@ -67,6 +77,10 @@ export const projects: Project[] = [
       { label: "Objectif", value: "Analyse sentiment" },
       { label: "Type", value: "NLP (classification)" },
     ],
+    results: [
+      "Modèle entraîné + artefacts (tokenizer, modèle) packagés pour l’inférence",
+      "App de démo pour tester le sentiment sur des textes",
+    ],
     links: [
       {
         label: "Code (GitHub)",
@@ -75,6 +89,9 @@ export const projects: Project[] = [
     ],
     demoUrl: "https://data-science-portfolio-9trrfmqurfwu3p3hl7ibwz.streamlit.app/",
     demoEmbedUrl: "https://data-science-portfolio-9trrfmqurfwu3p3hl7ibwz.streamlit.app/",
+    readmePath: "../02_DL_NLP_Sentiment/README.md",
+    readmeUrl:
+      "https://raw.githubusercontent.com/soboure69/data-science-portfolio/master/02_DL_NLP_Sentiment/README.md",
     coverImage: {
       src: "/covers/dl-nlp-sentiment.svg",
       alt: "Aperçu du projet NLP sentiment (Deep Learning)",
@@ -95,12 +112,19 @@ export const projects: Project[] = [
       { label: "Objectif", value: "Warehouse analytique" },
       { label: "Pattern", value: "ELT/ETL + idempotence" },
     ],
+    results: [
+      "Schéma warehouse (raw + analytics) + contrôles qualité",
+      "Chargement idempotent (zéro duplicat) orchestré par DAGs",
+    ],
     links: [
       {
         label: "Code (GitHub)",
         href: "https://github.com/soboure69/data-science-portfolio/tree/main/03_Data_Engineering_ETL_Airflow_Postgres",
       },
     ],
+    readmePath: "../03_Data_Engineering_ETL_Airflow_Postgres/README.md",
+    readmeUrl:
+      "https://raw.githubusercontent.com/soboure69/data-science-portfolio/master/03_Data_Engineering_ETL_Airflow_Postgres/README.md",
     coverImage: {
       src: "/covers/etl-airflow-postgres.svg",
       alt: "Aperçu du projet ETL (Airflow + Postgres)",
@@ -121,6 +145,10 @@ export const projects: Project[] = [
       { label: "Démo", value: "Live" },
       { label: "Approche", value: "TF-IDF + cosine" },
     ],
+    results: [
+      "Moteur de recommandation content-based (TF-IDF + cosine similarity)",
+      "Dashboard interactif (filtres + gestion cas limites) déployé sur Render",
+    ],
     links: [
       { label: "Démo (Render)", href: "https://dashboard-recommendation-a1ds.onrender.com" },
       {
@@ -130,6 +158,9 @@ export const projects: Project[] = [
     ],
     demoUrl: "https://dashboard-recommendation-a1ds.onrender.com",
     demoEmbedUrl: "https://dashboard-recommendation-a1ds.onrender.com",
+    readmePath: "../04_Dashboard_Recommendation/README.md",
+    readmeUrl:
+      "https://raw.githubusercontent.com/soboure69/data-science-portfolio/master/04_Dashboard_Recommendation/README.md",
     coverImage: {
       src: "/covers/dashboard-recommendation.svg",
       alt: "Aperçu du dashboard de recommandation",
